@@ -7,9 +7,38 @@
         <meta name="author" content="Tomasz Gądek">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Tytuł podstrony</title>
+        <title>NBP</title>
     </head>
     <body>
-        Informatyka stosowana
+        <p>
+            Aktualnie obowiązująca cena złota w dniu: <span id="date"></span>
+        </p>
+        <p>
+     <table>
+        <tr><th>Data</th><th>Cena zlota</th></tr>
+        <tr><td id="date0"></td><td id="prlce0"></td></tr>
+        <!--...-->
+       </table>
+        </p>
+
+        <script type="text/javascript">
+            // wprowadz adres do przegladarki i zobacz, co takiego sie wyswietli
+            fetch('http://api.nbp.pl/api/cenyzlota?format=json')
+                .then(response => response.json())
+                .then(response => {
+                    // tutaj obslugujemy dane (parametr 'response') z serwera (json)
+                    console.log(response); 
+
+                    // 'response' to tablica - odwoluje sie do 1 elementu (idx = 0)
+                    let priceGold = response[0];
+
+                    console.log('cena = ' + priceGold.cena);
+                    console.log('data = ' + priceGold.data);
+
+                    document.getElementById("price").innerHTML = priceGold.cena;
+                    document.getElementById("date").innerHTML = priceGold.data;
+                })
+                .catch(err => console.error(err)); // obsluga w przypadku bledu!
+        </script>
     </body>
 </html>
